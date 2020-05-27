@@ -23,9 +23,17 @@ stages:
     - bash : echo $(System.DefaultWorkingDirectory)
     - bash : ls -R $(System.DefaultWorkingDirectory)
     - bash : echo $(Build.ArtifactStagingDirectory)
-  - job: SecondJob
-    steps:
-    - bash : echo Build
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: |
+          **/*.yaml
+          **/*.tf
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  # - job: SecondJob
+  #   steps:
+  #   - bash : echo Build
 # - stage: DevDeploy
 #   variables:
 #     environment: Dev
@@ -50,6 +58,5 @@ stages:
 #   - job: ProdDeployJob
 #     steps:
 #     - bash : echo Build
-
 
 
